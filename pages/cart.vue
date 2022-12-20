@@ -8,7 +8,7 @@
         @click.native="pushDetailPage(item.id)"
       )
         v-card-title {{ item.item.title }}
-        v-card-text Цена: {{ item.item.price }}
+        v-card-text Цена: {{ item.item.price }} руб.
         v-card-text Колл-во: {{ item.amount }}
     v-btn(@click="moveToCheckout") Перейти к оплате
 </template>

@@ -1,23 +1,31 @@
 <template lang="pug">
   v-card
     v-card-title Ваш аккаунт
-    div(v-if="user")
+    div(v-if="user").user-wrapper
       v-text-field(
         value="user.email"
       )
       v-text-field(
-        placeholder="Введите новый пароль"
+        placeholder="Введите новый пароль",
+        v-model="password",
+        type="password"
       )
       v-text-field(
-        placeholder="Подтвердите новый пароль"
+        placeholder="Подтвердите новый пароль",
+        v-model="passwordCheck"
+        type="password"
       )
       v-text-field(
         placeholder="Введите имя пользователя"
+        v-model="firstName"
       )
       v-text-field(
         placeholder="Введите фамилию пользователя"
+        v-model="lastName"
       )
-      v-btn Сохранить
+      v-btn(
+        @click="editUser()"
+      ) Сохранить
 </template>
 
 <script>
@@ -25,18 +33,45 @@ export default {
   name: "profile",
   data() {
     return {
-      user: null
+      user: null,
+      password: '',
+      passwordCheck: '',
+      firstName: '',
+      lastName: ''
     }
   },
   async mounted() {
     if(localStorage.userId) {
       this.userId = localStorage.userId;
+      await this.fetchUser()
+    }
+  },
+  methods: {
+    async editUser() {
+      if(this.password !== this.passwordCheck) {
+        return;
+      }
+      await this.$axios.$post('users/update-user', {
+        password: this.password,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        userId: this.userId
+      });
+      await this.fetchUser()
+    },
+    async fetchUser() {
       this.user = await this.$axios.$get('users/' + this.userId);
+      this.password = this.user.password;
+      this.passwordCheck = this.user.password;
+      this.firstName = this.user.firstName;
+      this.lastName = this.user.lastName;
     }
   }
 }
 </script>
 
 <style scoped>
-
+.user-wrapper {
+  padding: 30px;
+}
 </style>

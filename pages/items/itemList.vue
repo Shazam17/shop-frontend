@@ -53,11 +53,12 @@ export default {
     pushDetailPage(itemId) {
       this.$router.push(`items/${itemId}`)
     },
-    addToCart(itemId) {
-      this.$axios.$put('users/cart', {
+    async addToCart(itemId) {
+      await this.$axios.$put('users/cart', {
         itemId,
         userId: this.userId
       })
+      await this.fetchItems()
     },
     async fetchItems() {
       console.log('fetch')
