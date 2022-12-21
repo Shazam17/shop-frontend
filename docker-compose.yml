@@ -1,0 +1,56 @@
+version: '3.1'
+services:
+  dba:
+    image: mysql
+    container_name: dba
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_user_pass
+    ports:
+      - "6033:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - dba
+    environment:
+      PMA_HOST: dba
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+  backend:
+    build:
+      context: .
+      dockerfile: shop-backend/Dockerfile
+    environment:
+        - NODE_ENV=development
+        - DB_HOST=dba
+    ports:
+        - "3001:3001"
+    volumes:
+        - $PWD/ui:/app
+    command: start
+    links:
+      - dba
+  frontend:
+    build:
+      context: .
+      dockerfile: shop-frontend/Dockerfile
+    environment:
+      - NODE_ENV=development
+      - API_URL=backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - $PWD/ui:/app
+    command: start
+    links:
+      - backend
+volumes:
+  dbdata:
