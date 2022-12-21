@@ -51,7 +51,7 @@ export default {
   },
   async mounted() {
     await this.fetchData()
-    if(localStorage.userId !== 'null') {
+    if(localStorage.userId !== 'null' && localStorage.userId) {
       this.items.push(...[
         { title: 'Пользователь', route: '/profile'},
         { title: 'Заказы', route: '/orders'},
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      if(localStorage.userId !== 'null') {
+      if(localStorage.userId !== 'null' && localStorage.userId) {
         const cart = await this.$axios.$get('users/cart/' + localStorage.userId);
         this.cartPrice = cart.totalPrice;
         this.userId = localStorage.userId

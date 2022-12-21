@@ -27,7 +27,7 @@ export default {
     }
   },
   async mounted() {
-    if(localStorage.userId !== 'null') {
+    if(localStorage.userId !== 'null' && localStorage.userId) {
       await this.$router.push('/')
     }
   },
