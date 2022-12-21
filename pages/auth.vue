@@ -26,15 +26,21 @@ export default {
       password: ''
     }
   },
+  async mounted() {
+    if(localStorage.userId !== 'null') {
+      await this.$router.push('/')
+    }
+  },
   methods: {
     async login() {
-      const auth = await this.$axios.$post('items/login', {
+      const auth = await this.$axios.$post('users/login', {
         email: this.email,
         password: this.password
       });
       if(auth.success) {
         localStorage.userId = auth.userId;
-        this.$router.push('/')
+
+        await this.$router.go(0)
       }
     }
   }

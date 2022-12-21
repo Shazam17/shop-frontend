@@ -15,7 +15,7 @@
 
 </template>
 
-<script lang="ts">
+<script lang="js">
 export default {
   name: "orders",
   data() {
@@ -29,13 +29,12 @@ export default {
     await this.fetchOrders();
   },
   methods: {
-    async deleteOrder(orderId: string) {
+    async deleteOrder(orderId) {
       await this.$axios.$delete(`/items/order/${orderId}`);
       await this.fetchOrders();
     },
     async fetchOrders() {
       const orderDto = await this.$axios.$get(`/items/orders/${this.userId}`);
-      console.log(orderDto)
       this.orders = orderDto;
     }
   }

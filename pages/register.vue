@@ -11,7 +11,7 @@
         type='password'
         placeholder="Введите пароль"
       )
-      v-btn(@click="login()") Зарегистрироваться
+      v-btn(@click="register()") Зарегистрироваться
 
 </template>
 
@@ -25,11 +25,12 @@ export default {
     }
   },
   methods: {
-    async login() {
-      const auth = await this.$axios.$post('items/register', {
+    async register() {
+      const auth = await this.$axios.$post('users/register', {
         email: this.email,
         password: this.password
       });
+      console.log(auth)
       if(auth.success) {
         await this.$router.push('/auth')
       }

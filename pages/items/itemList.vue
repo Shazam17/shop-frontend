@@ -4,6 +4,8 @@
       v-select(
       v-model="categoryFilter"
       :items="categories"
+      item-text="title"
+      item-value="value"
       label="Выберите категорию"
         )
       v-text-field(
@@ -31,13 +33,14 @@ export default {
     return {
       items: [],
       categoryFilter: null,
-      categories: ['шахматы', 'что-то еще'],
+      categories: [ {title: 'Не выбрано', value: null}, {title: 'шахматы', value: 'chess'}, {title: 'что-то еще', value: 'something'}],
       nameFilter: '',
       userId: ''
     }
   },
   watch: {
     categoryFilter(filter) {
+      this.fetchItems()
     },
     nameFilter(filter) {
       this.fetchItems()
@@ -67,7 +70,8 @@ export default {
     async fetchItems() {
       const items = await this.$axios.$post('/items/search', {
         nameFilter: this.nameFilter.length > 0 ? this.nameFilter : null,
-        userId: this.userId
+        userId: this.userId,
+        category: this.categoryFilter
       });
       this.items = items;
     }
