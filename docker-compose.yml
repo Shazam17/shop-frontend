@@ -24,33 +24,33 @@ services:
     restart: always
     ports:
       - 8081:80
-  backend:
-    build:
-      context: .
-      dockerfile: shop-backend/Dockerfile
-    environment:
-        - NODE_ENV=development
-        - DB_HOST=dba
-    ports:
-        - "3001:3001"
-    volumes:
-        - $PWD/ui:/app
-    command: start
-    links:
-      - dba
-  frontend:
-    build:
-      context: .
-      dockerfile: shop-frontend/Dockerfile
-    environment:
-      - NODE_ENV=development
-      - API_URL=backend
-    ports:
-      - "3000:3000"
-    volumes:
-      - $PWD/ui:/app
-    command: start
-    links:
-      - backend
+#  backend:
+#    build:
+#      context: .
+#      dockerfile: shop-backend/Dockerfile
+#    environment:
+#        - NODE_ENV=development
+#        - DB_HOST=dba
+#    ports:
+#        - "3001:3001"
+#    volumes:
+#        - $PWD/ui:/app
+#    command: start
+#    links:
+#      - dba
+#  frontend:
+#    build:
+#      context: .
+#      dockerfile: shop-frontend/Dockerfile
+#    environment:
+#      - NODE_ENV=development
+#      - API_URL=backend
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - $PWD/ui:/app
+#    command: start
+#    links:
+#      - backend
 volumes:
   dbdata:
