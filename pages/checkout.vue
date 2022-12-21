@@ -2,7 +2,13 @@
 v-card
   v-card-title Формирование заказа
   v-text-field(
-    placeholder="Введите получателя"
+    label="ФИО"
+    placeholder="Введите фио"
+    v-model="fullName"
+  )
+  v-text-field(
+    label="Адрес"
+    placeholder="введите адрес"
     v-model="destination"
   )
   v-btn(
@@ -15,7 +21,8 @@ export default {
   name: "checkout",
   data() {
     return {
-      destination: ''
+      destination: '',
+      fullName: ''
     }
   },
   methods: {

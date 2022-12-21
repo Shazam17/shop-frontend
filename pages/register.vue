@@ -8,9 +8,11 @@
       )
       v-text-field(
         v-model="password"
+        type='password'
         placeholder="Введите пароль"
       )
-      v-btn(@click="login()") войти
+      v-btn(@click="login()") Зарегистрироваться
+
 </template>
 
 <script>
@@ -44,5 +46,6 @@ export default {
 .field-wrapper {
   margin: 0 auto;
   width: 50%;
+  padding: 15px;
 }
 </style>

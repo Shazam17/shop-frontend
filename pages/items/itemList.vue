@@ -44,8 +44,8 @@ export default {
     }
   },
   async mounted() {
-    if (localStorage.userId) {
-      this.userId = localStorage.userId;
+    if (localStorage.getItem('userId') !== 'null') {
+      this.userId = localStorage.getItem('userId');
     }
     await this.fetchItems();
   },
@@ -54,6 +54,10 @@ export default {
       this.$router.push(`items/${itemId}`)
     },
     async addToCart(itemId) {
+      if(!this.userId) {
+        alert('Вы не авторизированны для этого действия')
+        return;
+      }
       await this.$axios.$put('users/cart', {
         itemId,
         userId: this.userId
@@ -61,7 +65,6 @@ export default {
       await this.fetchItems()
     },
     async fetchItems() {
-      console.log('fetch')
       const items = await this.$axios.$post('/items/search', {
         nameFilter: this.nameFilter.length > 0 ? this.nameFilter : null,
         userId: this.userId

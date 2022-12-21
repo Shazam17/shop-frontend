@@ -3,23 +3,28 @@
     v-card-title Ваш аккаунт
     div(v-if="user").user-wrapper
       v-text-field(
+        label="Email"
         value="user.email"
       )
       v-text-field(
+        label="Пароль"
         placeholder="Введите новый пароль",
         v-model="password",
         type="password"
       )
       v-text-field(
+        label="Подтверждение пароля"
         placeholder="Подтвердите новый пароль",
         v-model="passwordCheck"
         type="password"
       )
       v-text-field(
+        label="Имя пользователя"
         placeholder="Введите имя пользователя"
         v-model="firstName"
       )
       v-text-field(
+        label='Фамилия'
         placeholder="Введите фамилию пользователя"
         v-model="lastName"
       )
@@ -41,7 +46,7 @@ export default {
     }
   },
   async mounted() {
-    if(localStorage.userId) {
+    if(localStorage.userId !== 'null') {
       this.userId = localStorage.userId;
       await this.fetchUser()
     }

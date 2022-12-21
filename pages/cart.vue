@@ -5,12 +5,13 @@
       v-for="item in items"
       :key="item.id").item-card-cart
       v-card.card(
-        @click.native="pushDetailPage(item.id)"
+
       )
         v-card-title {{ item.item.title }}
         v-card-text Цена: {{ item.item.price }} руб.
         v-card-text Колл-во: {{ item.amount }}
-    v-btn(@click="moveToCheckout") Перейти к оплате
+    v-btn(@click="moveToCheckout", v-if="items.length > 0") Перейти к оплате
+    v-card-title(v-if="items.length === 0" ) Ваша корзина пуста, добавьте в нее что-нибудь!
 </template>
 
 <script>
@@ -22,7 +23,7 @@ export default {
     }
   },
   async mounted() {
-    if( localStorage.userId){
+    if( localStorage.userId !== 'null'){
       const cart = await this.$axios.$get('users/cart/' + localStorage.userId);
       this.items = cart.items;
       console.log(cart)
